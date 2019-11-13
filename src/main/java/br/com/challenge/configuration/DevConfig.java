@@ -2,8 +2,8 @@ package br.com.challenge.configuration;
 
 
 import br.com.challenge.service.impl.DBService;
-import br.com.challenge.service.impl.EmailService;
-import br.com.challenge.service.impl.SmtpEmailService;
+import br.com.challenge.service.impl.SmtpEmailServiceInterface;
+import br.com.challenge.service.interfaces.EmailServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +34,7 @@ public class DevConfig {
     }
 
     @Bean
-    public EmailService emailService() {
-        return new SmtpEmailService();
+    public EmailServiceInterface emailService() {
+        return new SmtpEmailServiceInterface();
     }
 }

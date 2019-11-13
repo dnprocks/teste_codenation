@@ -1,14 +1,14 @@
-package br.com.challenge.service.impl;
+package br.com.challenge.service.interfaces;
 
 import br.com.challenge.entity.Users;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface EmailService {
+public interface EmailServiceInterface {
 
 
-    void sendOrderConfimationEmail(Users user);
+    void sendRegisterConfimationEmail(Users user);
 
     void sendEmail(SimpleMailMessage msg);
 

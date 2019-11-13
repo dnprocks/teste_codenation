@@ -1,19 +1,20 @@
 package br.com.challenge.service.impl;
 
 import br.com.challenge.entity.Users;
+import br.com.challenge.service.interfaces.EmailServiceInterface;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 
 import java.util.Date;
 
 
-public abstract class AbstractEmailService implements EmailService {
+public abstract class AbstractEmailServiceInterface implements EmailServiceInterface {
 
     @Value("${default.sender}")
     private String sender;
 
     @Override
-    public void sendOrderConfimationEmail(Users user) {
+    public void sendRegisterConfimationEmail(Users user) {
         SimpleMailMessage sm = prepareSimpleMailMessageFromCustomer(user);
         sendEmail(sm);
     }
@@ -22,7 +23,7 @@ public abstract class AbstractEmailService implements EmailService {
         SimpleMailMessage sm = new SimpleMailMessage();
         sm.setTo(user.getEmail());
         sm.setFrom(sender);
-        sm.setSubject("Customer successfully registered!: " + user.getId());
+        sm.setSubject("User successfully registered!: " + user.getId());
         sm.setSentDate(new Date(System.currentTimeMillis()));
         sm.setText(user.toString());
         return sm;

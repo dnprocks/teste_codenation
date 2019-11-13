@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 
-public class SmtpEmailService extends AbstractEmailService {
+public class SmtpEmailServiceInterface extends AbstractEmailServiceInterface {
 
 
-    private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SmtpEmailServiceInterface.class);
     @Autowired
     private MailSender mailSender;
 

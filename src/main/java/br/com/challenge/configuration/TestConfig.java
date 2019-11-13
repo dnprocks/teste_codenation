@@ -2,8 +2,8 @@ package br.com.challenge.configuration;
 
 
 import br.com.challenge.service.impl.DBService;
-import br.com.challenge.service.impl.EmailService;
-import br.com.challenge.service.impl.MockEmailService;
+import br.com.challenge.service.impl.MockEmailServiceInterface;
+import br.com.challenge.service.interfaces.EmailServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class TestConfig {
     }
 
     @Bean
-    public EmailService emailService() {
-        return new MockEmailService();
+    public EmailServiceInterface emailService() {
+        return new MockEmailServiceInterface();
     }
 }
