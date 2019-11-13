@@ -4,7 +4,7 @@ package br.com.challenge.enums;
 public enum Profile {
 
     ADMIN(1, "ROLE_ADMIN"),
-    CUSTOMER(2, "ROLE_USER");
+    USER(2, "ROLE_USER");
 
     private int cod;
     private String description;
