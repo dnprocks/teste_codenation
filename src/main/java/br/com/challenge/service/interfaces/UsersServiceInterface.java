@@ -13,9 +13,9 @@ public interface UsersServiceInterface {
 
     Users getUserEmail(String email);
 
-    void saveUsers(Users customer);
+    Users saveUsers(Users users);
 
-    void updateUsers(Users customer);
+    Users updateUsers(Users users);
 
     void deleteUsers(Long id);
 

@@ -13,6 +13,7 @@ public abstract class AbstractEmailServiceInterface implements EmailServiceInter
     @Value("${default.sender}")
     private String sender;
 
+
     @Override
     public void sendRegisterConfimationEmail(Users user) {
         SimpleMailMessage sm = prepareSimpleMailMessageFromCustomer(user);

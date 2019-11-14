@@ -26,6 +26,9 @@ public class Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String token;
+
     @Column(length = 80)
     @NotNull
     private String name;
