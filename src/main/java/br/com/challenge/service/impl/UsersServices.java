@@ -6,11 +6,14 @@ import br.com.challenge.exception.AuthorizationException;
 import br.com.challenge.exception.NoContentException;
 import br.com.challenge.repository.UsersRepository;
 import br.com.challenge.security.UserSS;
+import br.com.challenge.service.interfaces.EmailServiceInterface;
 import br.com.challenge.service.interfaces.UsersServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +21,14 @@ import java.util.Optional;
 public class UsersServices implements UsersServiceInterface {
 
 
+    @Value("${url.user.activite}")
+    private String uri;
+
     @Autowired
     private UsersRepository usersRepository;
 
     @Autowired
-    private EmailService emailService;
+    private EmailServiceInterface emailService;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -56,12 +62,14 @@ public class UsersServices implements UsersServiceInterface {
     @Override
     public Users saveUsers(Users users) {
         users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
-
+        users.setToken(Base64.getEncoder().encodeToString(users.getEmail().getBytes()));
+        Users user = usersRepository.save(users);
         try {
-            emailService.sendOrderConfimationEmail(users);
+            user.setUri(uri.concat(user.getToken()));
+            emailService.sendRegisterConfimationEmail(user);
         } catch (Exception e) {
         }
-        return usersRepository.save(users);
+        return user;
     }
 
     @Override
@@ -81,8 +89,8 @@ public class UsersServices implements UsersServiceInterface {
     }
 
     @Override
-    public String activeUsers(Long id) {
-        Users users = usersRepository.getOne(id);
+    public String activeUsers(String token) {
+        Users users = usersRepository.findUsersByToken(token);
 
         if (users != null) {
             users.setActive(true);

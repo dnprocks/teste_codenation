@@ -19,5 +19,5 @@ public interface UsersServiceInterface {
 
     void deleteUsers(Long id);
 
-    String activeUsers(Long id);
+    String activeUsers(String token);
 }
