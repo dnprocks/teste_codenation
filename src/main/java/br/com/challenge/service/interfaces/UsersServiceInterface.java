@@ -20,4 +20,6 @@ public interface UsersServiceInterface {
     void deleteUsers(Long id);
 
     String activeUsers(String token);
+
+    List<Users> findUsersByActiveFalse();
 }

@@ -1,11 +1,21 @@
 package br.com.challenge.entity;
 
 import br.com.challenge.enums.Profile;
+import br.com.challenge.listener.UsersListner;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -15,6 +25,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Data
 @Entity
+@EntityListeners(UsersListner.class)
 public class Users {
 
     @Transient

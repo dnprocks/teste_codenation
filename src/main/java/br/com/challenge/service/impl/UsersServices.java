@@ -63,13 +63,7 @@ public class UsersServices implements UsersServiceInterface {
     public Users saveUsers(Users users) {
         users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
         users.setToken(Base64.getEncoder().encodeToString(users.getEmail().getBytes()));
-        Users user = usersRepository.save(users);
-        try {
-            user.setUri(uri.concat(user.getToken()));
-            emailService.sendRegisterConfimationEmail(user);
-        } catch (Exception e) {
-        }
-        return user;
+        return usersRepository.save(users);
     }
 
     @Override
@@ -99,5 +93,10 @@ public class UsersServices implements UsersServiceInterface {
             return "Usuário Registrado com sucesso!";
         }
         return "Erro ao ativar o usuário.";
+    }
+
+    @Override
+    public List<Users> findUsersByActiveFalse() {
+        return usersRepository.findUsersByActiveFalse();
     }
 }
