@@ -14,6 +14,6 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
     Users findUsersByToken(String token);
 
-    @Query(value = "select * from users where users.activate = false and not exists(select newuser.id from newuser where newuser.usuario_id = usuario.id)", nativeQuery = true)
+    @Query(value = "select * from users where users.active = false and not exists(select new_user.id from new_user where new_user.users_id = users.id)", nativeQuery = true)
     List<Users> findUsersByActiveFalse();
 }
