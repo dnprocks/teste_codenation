@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,16 @@ public class UsersServices implements UsersServiceInterface {
 
     @Override
     public List<Users> getUsers() {
-        return usersRepository.findAll();
+
+        List<Users> list = new ArrayList<>();
+        try{
+            list = usersRepository.findAll();
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        return list;
     }
 
     @Override
@@ -61,10 +71,20 @@ public class UsersServices implements UsersServiceInterface {
 
     @Override
     public Users saveUsers(Users users) {
+
         users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
         users.setToken(Base64.getEncoder().encodeToString(users.getEmail().getBytes()));
-        return usersRepository.save(users);
+        Users user = usersRepository.save(users);
+        try {
+            user.setUri(uri.concat(user.getToken()));
+            emailService.sendRegisterConfimationEmail(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return user;
     }
+
 
     @Override
     public Users updateUsers(Users users) {

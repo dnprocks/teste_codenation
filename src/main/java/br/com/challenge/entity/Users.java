@@ -6,26 +6,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Data
 @Entity
-@EntityListeners(UsersListner.class)
 public class Users {
 
     @Transient
@@ -68,6 +60,12 @@ public class Users {
     private String password;
 
     private boolean active;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "users_id")
+    @Null
+    @JsonIgnore
+    private List<LogError> logErrorList;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "Profile")
