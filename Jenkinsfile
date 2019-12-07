@@ -1,32 +1,24 @@
 #!/usr/bin/env groovy
 pipeline {
-    agent any
-    environment {
-        POM_VERSION = readMavenPom().getVersion()
-        BUILD_RELEASE_VERSION = readMavenPom().getVersion().replace("-SNAPSHOT", "")
-        IS_SNAPSHOT = readMavenPom().getVersion().endsWith("-SNAPSHOT")
-        GIT_TAG_COMMIT = sh(script: 'git describe --tags --always', returnStdout: true).trim()
-    }
+   
     stages {
-        stage('stage one') {
+        stage('stage build') {
             steps {
                 script {
-                    tags_extra = "value_1"
+                    sh 'mvn -B -DskipTests clean package'
                 }
                 echo "tags_extra: ${tags_extra}"
             }
         }
-        stage('stage two') {
+        stage('stage test') {
             steps {
-                echo "tags_extra: ${tags_extra}"
+                sh 'mvn test'
             }
         }
-        stage('stage three') {
-            when {
-                expression { tags_extra != 'bla' }
-            }
+        stage('stage deploy') {
+            
             steps {
-                echo "tags_extra: ${tags_extra}"
+                echo "deploy success"
             }
         }
     }
