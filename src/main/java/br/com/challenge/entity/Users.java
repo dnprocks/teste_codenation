@@ -61,10 +61,8 @@ public class Users {
 
     private boolean active;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "users_id")
-    @Null
     @JsonIgnore
+    @OneToMany(mappedBy="users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<LogError> logErrorList;
 
     @ElementCollection(fetch = FetchType.EAGER)

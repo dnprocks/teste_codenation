@@ -7,10 +7,6 @@ import br.com.challenge.repository.LogErrorRepository;
 import br.com.challenge.repository.UsersRepository;
 import br.com.challenge.service.interfaces.LogErrorServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
