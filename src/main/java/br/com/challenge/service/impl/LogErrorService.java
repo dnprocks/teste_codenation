@@ -7,6 +7,9 @@ import br.com.challenge.repository.LogErrorRepository;
 import br.com.challenge.repository.UsersRepository;
 import br.com.challenge.service.interfaces.LogErrorServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,27 +33,20 @@ public class LogErrorService implements LogErrorServiceInterface {
     @Override
     public LogError getLogError(Long id) {
 
-        LogError error = null;
-
-        try{
-            error = logErrorRepository.findById(id).orElse(null);
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-        return error;
+        return logErrorRepository.findById(id).orElse(null);
     }
 
     @Override
-    public LogError saveLogError(LogErrorDTO logErrorModel) {
+    public LogError saveLogError(LogErrorDTO logErrorModel, String requestIp) {
 
-        Users user = usersRepository.findAll().get(0); //######## MODIFICAR PARA RECUPERAR O USUÁRIO LOGADO #########
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Users authenticatedUser = usersRepository.findByEmail(userDetails.getUsername());
 
         LogError logError = LogError.builder()
-                                    .users(user)
+                                    .users(authenticatedUser)
                                     .level(logErrorModel.getErrorLevel())
-                                    .requestIp("")          //######## MODIFICAR PARA RECUPERAR O IP DA REQUISIÇÃO ##########
+                                    .requestIp(requestIp)
                                     .environment(logErrorModel.getEnvironment())
                                     .details(logErrorModel.getDetails())
                                     .title(logErrorModel.getTitle())

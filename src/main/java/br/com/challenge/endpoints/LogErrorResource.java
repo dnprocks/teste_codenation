@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -15,6 +16,9 @@ public class LogErrorResource {
 
     @Autowired
     LogErrorService logErrorService;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
@@ -32,8 +36,10 @@ public class LogErrorResource {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LogError saveUsers(@RequestBody LogErrorDTO logerror) {
+    public LogError saveUsers(@RequestBody LogErrorDTO logError) {
 
-        return logErrorService.saveLogError(logerror);
+        String requestIp = request.getRemoteAddr();
+
+        return logErrorService.saveLogError(logError, requestIp);
     }
 }

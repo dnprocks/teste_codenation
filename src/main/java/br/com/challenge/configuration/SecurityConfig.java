@@ -33,10 +33,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
 
     private static final String[] PUBLIC_MATCHERS_POST = {
-            "/users/**", "/logerror/**"
+            "/users/**"
     };
     private static final String[] PUBLIC_MATCHERS_GET = {
-            "/users/**", "/logerror/**"
+            "/users/**"
     };
 
     @Autowired

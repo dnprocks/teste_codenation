@@ -4,6 +4,7 @@ import br.com.challenge.dto.LogErrorDTO;
 import br.com.challenge.entity.LogError;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Service
@@ -13,5 +14,5 @@ public interface LogErrorServiceInterface {
 
     LogError getLogError(Long id);
 
-    LogError saveLogError(LogErrorDTO logError);
+    LogError saveLogError(LogErrorDTO logError, String requestIp);
 }

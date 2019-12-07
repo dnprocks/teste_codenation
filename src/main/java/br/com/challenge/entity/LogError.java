@@ -23,10 +23,6 @@ public class LogError {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "users_id")
-//    private Users users;
-
     @ManyToOne
     @JoinColumn(name="users_id", nullable=false)
     private Users users;
