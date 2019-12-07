@@ -1,12 +1,6 @@
 #!/usr/bin/env groovy
 pipeline {
     agent any
-    environment {
-        POM_VERSION = readMavenPom().getVersion()
-        BUILD_RELEASE_VERSION = readMavenPom().getVersion().replace("-SNAPSHOT", "")
-        IS_SNAPSHOT = readMavenPom().getVersion().endsWith("-SNAPSHOT")
-        GIT_TAG_COMMIT = sh(script: 'git describe --tags --always', returnStdout: true).trim()
-    }
     stages {
         stage('stage one') {
             steps {
