@@ -7,6 +7,7 @@ import java.util.List;
 
 @Service
 public interface UsersServiceInterface {
+
     List<Users> getUsers();
 
     Users getUser(Long id);

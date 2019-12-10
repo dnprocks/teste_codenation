@@ -46,6 +46,9 @@ public class LogError {
     private String details;
 
     @Column
+    private boolean filed;
+
+    @Column
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
 }
