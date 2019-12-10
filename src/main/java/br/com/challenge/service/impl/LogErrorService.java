@@ -25,15 +25,21 @@ public class LogErrorService implements LogErrorServiceInterface {
     UsersRepository usersRepository;
 
     @Override
+    public LogError getLogError(Long id) {
+
+        return logErrorRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public List<LogError> getLogErrors() {
 
         return logErrorRepository.findAll();
     }
 
     @Override
-    public LogError getLogError(Long id) {
+    public List<LogError> getLogErrors(int limit, int offset) {
 
-        return logErrorRepository.findById(id).orElse(null);
+        return logErrorRepository.findAllWithLimitAndOffset(limit, offset);
     }
 
     @Override
@@ -50,8 +56,51 @@ public class LogErrorService implements LogErrorServiceInterface {
                                     .environment(logErrorModel.getEnvironment())
                                     .details(logErrorModel.getDetails())
                                     .title(logErrorModel.getTitle())
+                                    .filed(false)
                                     .createdAt(LocalDateTime.now()).build();
 
         return logErrorRepository.save(logError);
+    }
+
+    @Override
+    public String fileLogError(Long id) {
+
+        LogError logError = logErrorRepository.findById(id).orElse(null);
+        if (logError == null){
+            return "Falha ao consultar de Log do Erro. Detalhes: Registro não encontrado.";
+        }
+
+        logError.setFiled(true);
+
+        try{
+
+            logErrorRepository.save(logError);
+        }
+        catch (Exception ex){
+
+            return "Falha não esperada ao arquivar registro de Log do Erro. Detalhes: " + ex.getMessage();
+        }
+
+        return "Registro de Log do Erro arquivado com sucesso!";
+    }
+
+    @Override
+    public String deleteLogError(Long id) {
+
+        LogError logError = logErrorRepository.findById(id).orElse(null);
+        if (logError == null){
+            return "Falha ao consultar Log do Erro. Detalhes: Registro não encontrado.";
+        }
+
+        try{
+
+            logErrorRepository.delete(logError);
+        }
+        catch (Exception ex){
+
+            return "Falha não esperada ao excluir registro de Log do Erro. Detalhes: " + ex.getMessage();
+        }
+
+        return "Registro de Log do Erro excluído com sucesso!";
     }
 }

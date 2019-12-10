@@ -20,13 +20,6 @@ public class LogErrorResource {
     @Autowired
     private HttpServletRequest request;
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<LogError> getLogErrors(){
-
-        return logErrorService.getLogErrors();
-    }
-
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public LogError getLogErrors(@PathVariable Long id) {
@@ -34,12 +27,40 @@ public class LogErrorResource {
         return logErrorService.getLogError(id);
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<LogError> getLogErrors(){
+
+        return logErrorService.getLogErrors();
+    }
+
+    @GetMapping(params = {"limit", "offset"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<LogError> getLogErrorsWithLimitAndOffset(@RequestParam("limit") int limit, @RequestParam("offset") int offset){
+
+        return logErrorService.getLogErrors(limit, offset);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public LogError saveUsers(@RequestBody LogErrorDTO logError) {
+    public LogError saveLogError(@RequestBody LogErrorDTO logError) {
 
         String requestIp = request.getRemoteAddr();
 
         return logErrorService.saveLogError(logError, requestIp);
+    }
+
+    @PutMapping("/file/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public String fileLogError(@PathVariable Long id) {
+
+        return logErrorService.fileLogError(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteLogError(@PathVariable Long id) {
+
+        return logErrorService.deleteLogError(id);
     }
 }
