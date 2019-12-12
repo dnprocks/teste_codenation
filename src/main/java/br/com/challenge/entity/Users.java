@@ -1,15 +1,14 @@
 package br.com.challenge.entity;
 
 import br.com.challenge.enums.Profile;
-import br.com.challenge.listener.UsersListner;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,18 +35,19 @@ public class Users {
     private String name;
 
     @Column(length = 80)
-    @NotNull
+    @Nullable
     private String adress;
 
     @Column(length = 10)
-    @NotNull
+    @Nullable
     private String number;
 
     @Column(length = 80)
+    @Nullable
     private String neighborhood;
 
     @Column(length = 80)
-    @NotNull
+    @Nullable
     private String city;
 
     @Column(length = 100, unique = true)
@@ -85,14 +85,19 @@ public class Users {
     @Override
     public String toString() {
 
+//        String adressString = adress == null ?  "" : adress;
+//        String numberString = number == null ?  "" : number;
+//        String neighborhoodString = neighborhood == null ?  "" : neighborhood;
+//        String cityString = city == null ?  "" : city;
+
         return " Olá! ".concat(name).concat("\n").concat("\n")
                 .concat("Obrigado por se registrar em nossa central de erros").concat("\n")
                 .concat("Segue suas informações de registro.").concat("\n").concat("\n")
                 .concat("Name: ").concat(name).concat("\n")
-                .concat("Adress: ").concat(adress).concat("\n")
-                .concat("Number: ").concat(number).concat("\n")
-                .concat("Neighborhood: ").concat(neighborhood).concat("\n")
-                .concat("City: ").concat(city).concat("\n")
+//                .concat("Adress: ").concat(adressString).concat("\n")
+//                .concat("Number: ").concat(numberString).concat("\n")
+//                .concat("Neighborhood: ").concat(neighborhoodString).concat("\n")
+//                .concat("City: ").concat(cityString).concat("\n")
                 .concat("Email: ").concat(email).concat("\n")
                 .concat("Password: ").concat("*********").concat("\n")
                 .concat("Profile: ").concat(profiles.toString()).concat("\n").concat("\n").concat("\n")

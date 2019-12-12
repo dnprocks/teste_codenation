@@ -37,15 +37,7 @@ public class UsersServices implements UsersServiceInterface {
     @Override
     public List<Users> getUsers() {
 
-        List<Users> list = new ArrayList<>();
-        try{
-            list = usersRepository.findAll();
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-        return list;
+        return usersRepository.findAll();
     }
 
     @Override
