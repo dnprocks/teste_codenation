@@ -24,7 +24,7 @@ public class UsersResource {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Users getUsers(@PathVariable Long id) {
-        return getUsers(id);
+        return usersServices.getUser(id);
     }
 
     @GetMapping(params = {"activite"})
