@@ -3,6 +3,7 @@ package br.com.challenge.service.impl;
 import br.com.challenge.entity.Users;
 import br.com.challenge.enums.Profile;
 import br.com.challenge.exception.AuthorizationException;
+import br.com.challenge.exception.ConflictException;
 import br.com.challenge.exception.NoContentException;
 import br.com.challenge.repository.UsersRepository;
 import br.com.challenge.security.UserSS;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +64,10 @@ public class UsersServices implements UsersServiceInterface {
     @Override
     public Users saveUsers(Users users) {
 
+        if (existsUser(users.getEmail())) {
+            throw new ConflictException("Usuario já cadastrado com este email. Email: " + users.getEmail());
+        }
+
         users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
         users.setToken(Base64.getEncoder().encodeToString(users.getEmail().getBytes()));
         Users user = usersRepository.save(users);
@@ -76,7 +80,6 @@ public class UsersServices implements UsersServiceInterface {
 
         return user;
     }
-
 
     @Override
     public Users updateUsers(Users users) {
@@ -110,5 +113,9 @@ public class UsersServices implements UsersServiceInterface {
     @Override
     public List<Users> findUsersByActiveFalse() {
         return usersRepository.findUsersByActiveFalse();
+    }
+
+    private boolean existsUser(String email) {
+        return !usersRepository.findByEmail(email).getEmail().isEmpty();
     }
 }
