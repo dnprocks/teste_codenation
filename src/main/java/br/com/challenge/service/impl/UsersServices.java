@@ -70,6 +70,7 @@ public class UsersServices implements UsersServiceInterface {
         users.setPassword(bCryptPasswordEncoder.encode(users.getPassword()));
         users.setToken(Base64.getEncoder().encodeToString(users.getEmail().getBytes()));
         Users user = usersRepository.save(users);
+        
         try {
             user.setUri(uri.concat(user.getToken()));
             emailService.sendRegisterConfimationEmail(user);
@@ -115,6 +116,6 @@ public class UsersServices implements UsersServiceInterface {
     }
 
     private boolean existsUser(String email) {
-        return !usersRepository.findByEmail(email).getEmail().isEmpty();
+        return usersRepository.findByEmail(email) != null;
     }
 }
