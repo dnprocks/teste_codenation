@@ -4,14 +4,15 @@ import br.com.challenge.dto.LogErrorDTO;
 import br.com.challenge.entity.LogError;
 import br.com.challenge.service.impl.LogErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
-@RequestMapping("logerror")
+@RequestMapping("logerrors")
 public class LogErrorResource {
 
     @Autowired
@@ -29,16 +30,8 @@ public class LogErrorResource {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<LogError> getLogErrors(){
-
-        return logErrorService.getLogErrors();
-    }
-
-    @GetMapping(params = {"limit", "offset"})
-    @ResponseStatus(HttpStatus.OK)
-    public List<LogError> getLogErrorsWithLimitAndOffset(@RequestParam("limit") int limit, @RequestParam("offset") int offset){
-
-        return logErrorService.getLogErrors(limit, offset);
+    public Page<LogError> getLogErrors(Pageable pageable) {
+        return logErrorService.getLogErrors(pageable);
     }
 
     @PostMapping

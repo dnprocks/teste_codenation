@@ -21,7 +21,6 @@ import java.util.Optional;
 @Service
 public class UsersServices implements UsersServiceInterface {
 
-
     @Value("${url.user.activite}")
     private String uri;
 

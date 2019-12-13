@@ -41,7 +41,6 @@ public class LogError {
     @NotNull
     private String title;
 
-    @Column(length = 255)
     @NotNull
     private String details;
 
